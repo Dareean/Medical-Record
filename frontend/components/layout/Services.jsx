@@ -1,40 +1,76 @@
-import { ArrowRight } from "lucide-react";
+import { Stethoscope, Activity, FileText, ArrowRight } from "lucide-react";
+
+const servicesData = [
+  {
+    title: "General Checkup",
+    desc: "Comprehensive health screening tailored to your age and needs.",
+    icon: <Stethoscope size={24} />,
+    color: "bg-blue-100 text-blue-600",
+  },
+  {
+    title: "Lab Results",
+    desc: "Fast and accurate laboratory results available directly on your dashboard.",
+    icon: <Activity size={24} />,
+    color: "bg-red-100 text-red-600",
+  },
+  {
+    title: "Medical History",
+    desc: "Secure storage for all your past diagnoses and prescriptions.",
+    icon: <FileText size={24} />,
+    color: "bg-green-100 text-green-600",
+  },
+];
 
 export default function Services() {
   return (
     <section
       id="services"
-      className="flex items-center justify-between gap-2 px-25 py-20"
+      className="py-2 px-10 max-w-7xl mx-auto scroll-mt-32"
     >
-      <div className="space-y-6 max-w-xl">
-        <div className="text-red-500">
-          <h1 className="text-2xl font-sans font-semibold">SERVICES</h1>
-        </div>
-        <h1 className="text-7xl font-black font-serif">
-          Streamline your clinical{" "}
-          <span className="text-red-400">workflow.</span>
-        </h1>
-        <h2 className="text-gray-500 text-lg">
-          Effortlessly handle patient records, history, and appointments in one
-          place. Less paperwork, more time for patients.
+      <div className="mb-12 text-center max-w-2xl mx-auto">
+        <h2 className="text-red-500 font-bold tracking-wide uppercase text-sm mb-2">
+          Our Services
         </h2>
-        <div className="flex items-center gap-4 text-sm">
-          <button className="group flex items-center gap-2 text-white bg-red-400 px-10 py-3 rounded-full cursor-pointer hover:bg-red-300 color-transition">
-            Get Started
-            <ArrowRight
-              size={17}
-              className="group-hover:translate-x-1 transition-transform"
-            />
-          </button>
-        </div>
+        <h1 className="text-3xl md:text-4xl font-serif font-bold text-slate-900">
+          High-quality services for your health
+        </h1>
+        <p className="text-slate-500 mt-4">
+          We provide various features to make it easier for you to manage
+          clinical data and patient health.
+        </p>
       </div>
 
-      <div className="p-6 space-y-2 w-full max-w-2xl">
-        <img
-          className="w-full h-auto object-cover"
-          src="/dashboard-medical-record.png"
-          alt="Medical Illustration"
-        />
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        {servicesData.map((service, index) => (
+          <div
+            key={index}
+            className="group bg-white border border-gray-100 rounded-2xl p-8 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
+          >
+            <div
+              className={`w-14 h-14 rounded-xl flex items-center justify-center mb-6 ${service.color}`}
+            >
+              {service.icon}
+            </div>
+
+            <h3 className="text-xl font-bold text-slate-800 mb-3">
+              {service.title}
+            </h3>
+            <p className="text-slate-500 mb-6 leading-relaxed">
+              {service.desc}
+            </p>
+
+            <a
+              href="#"
+              className="inline-flex items-center text-sm font-semibold text-slate-900 group-hover:text-red-400 transition-colors"
+            >
+              Learn More
+              <ArrowRight
+                size={16}
+                className="ml-2 group-hover:translate-x-1 transition-transform"
+              />
+            </a>
+          </div>
+        ))}
       </div>
     </section>
   );

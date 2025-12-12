@@ -5,7 +5,7 @@ export default function Hero() {
     <main className="py-10">
       <section
         id="hero"
-        className="flex items-center justify-between gap-2 px-25 py-10"
+        className="flex items-center justify-between gap-2 px-25 py-20"
       >
         <div className="space-y-6 max-w-xl">
           <div className="border border-red-500 w-fit px-3 py-1 rounded-full text-red-500 font-medium">
