@@ -16,7 +16,7 @@ export default function Navbar() {
           <a href="#services" className="hover:text-red-400 transition-colors">
             Service
           </a>
-          <a href="#" className="hover:text-red-400 transition-colors">
+          <a href="#about" className="hover:text-red-400 transition-colors">
             About Us
           </a>
           <a href="#" className="hover:text-red-400 transition-colors">

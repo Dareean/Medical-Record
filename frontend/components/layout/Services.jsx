@@ -24,8 +24,8 @@ const servicesData = [
 export default function Services() {
   return (
     <section
+      className="py-20 px-10 max-w-7xl mx-auto scroll-mt-32"
       id="services"
-      className="py-2 px-10 max-w-7xl mx-auto scroll-mt-32"
     >
       <div className="mb-12 text-center max-w-2xl mx-auto">
         <h2 className="text-red-500 font-bold tracking-wide uppercase text-sm mb-2">
