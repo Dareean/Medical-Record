@@ -28,7 +28,7 @@ export default function Navbar() {
         </div>
 
         <div>
-          <button className="bg-white text-slate-800 px-5 py-2 rounded-full text-sm font-bold hover:bg-red-50 transition-colors cursor-pointer shadow-md">
+          <button className="bg-black text-slate-800 px-5 py-2 rounded-full text-sm font-bold hover:bg-red-50 transition-colors cursor-pointer shadow-md">
             Start Recording
           </button>
         </div>
