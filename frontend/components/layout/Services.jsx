@@ -1,0 +1,41 @@
+import { ArrowRight } from "lucide-react";
+
+export default function Services() {
+  return (
+    <section
+      id="services"
+      className="flex items-center justify-between gap-2 px-25 py-20"
+    >
+      <div className="space-y-6 max-w-xl">
+        <div className="text-red-500">
+          <h1 className="text-2xl font-sans font-semibold">SERVICES</h1>
+        </div>
+        <h1 className="text-7xl font-black font-serif">
+          Streamline your clinical{" "}
+          <span className="text-red-400">workflow.</span>
+        </h1>
+        <h2 className="text-gray-500 text-lg">
+          Effortlessly handle patient records, history, and appointments in one
+          place. Less paperwork, more time for patients.
+        </h2>
+        <div className="flex items-center gap-4 text-sm">
+          <button className="group flex items-center gap-2 text-white bg-red-400 px-10 py-3 rounded-full cursor-pointer hover:bg-red-300 color-transition">
+            Get Started
+            <ArrowRight
+              size={17}
+              className="group-hover:translate-x-1 transition-transform"
+            />
+          </button>
+        </div>
+      </div>
+
+      <div className="p-6 space-y-2 w-full max-w-2xl">
+        <img
+          className="w-full h-auto object-cover"
+          src="/dashboard-medical-record.png"
+          alt="Medical Illustration"
+        />
+      </div>
+    </section>
+  );
+}

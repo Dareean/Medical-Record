@@ -13,7 +13,7 @@ export default function Navbar() {
           <a href="#hero" className="hover:text-red-400 transition-colors">
             Home
           </a>
-          <a href="#" className="hover:text-red-400 transition-colors">
+          <a href="#services" className="hover:text-red-400 transition-colors">
             Service
           </a>
           <a href="#" className="hover:text-red-400 transition-colors">
@@ -28,7 +28,7 @@ export default function Navbar() {
         </div>
 
         <div>
-          <button className="bg-white text-slate-800 px-5 py-2 rounded-full text-sm font-bold hover:bg-blue-50 transition-colors cursor-pointer shadow-md">
+          <button className="bg-white text-slate-800 px-5 py-2 rounded-full text-sm font-bold hover:bg-red-50 transition-colors cursor-pointer shadow-md">
             Start Recording
           </button>
         </div>
