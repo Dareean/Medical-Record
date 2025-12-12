@@ -1,8 +1,10 @@
 import { ArrowRight } from "lucide-react";
 import Navbar from "../components/layout/Navbar";
 import Footer from "../components/layout/Footer";
+import { useRef } from "React";
 
 function App() {
+  const homeRef = useRef();
   return (
     <div className="">
       <Navbar />
@@ -10,18 +12,22 @@ function App() {
       <main className="py-10">
         <section
           id="hero"
-          className="flex items-center justify-between gap-2 px-10 py-20"
+          className="flex items-center justify-between gap-2 px-25 py-10"
         >
           <div className="space-y-6 max-w-xl">
+            <div className="border border-red-500 w-fit px-3 py-1 rounded-full text-red-500 font-medium">
+              <p className="">#1 Favorite</p>
+            </div>
             <h1 className="text-7xl font-black font-serif">
-              Build with <span className="text-blue-400">precision.</span>
+              Streamline your clinical{" "}
+              <span className="text-red-400">workflow.</span>
             </h1>
             <h2 className="text-gray-500 text-lg">
-              A minimalist toolkit for developers who value clean code and
-              simple workflows. No bloat. Just tools.
+              Effortlessly handle patient records, history, and appointments in
+              one place. Less paperwork, more time for patients.
             </h2>
             <div className="flex items-center gap-4 text-sm">
-              <button className="group flex items-center gap-2 text-white bg-blue-400 px-6 py-2 rounded-md cursor-pointer hover:bg-blue-300">
+              <button className="group flex items-center gap-2 text-white bg-red-400 px-6 py-2 rounded-md cursor-pointer hover:bg-blue-300">
                 Get Started
                 <ArrowRight
                   size={16}
@@ -34,22 +40,12 @@ function App() {
             </div>
           </div>
 
-          <div className="border border-gray-200 rounded-lg p-6 space-y-2 w-full max-w-2xl">
-            <div className="flex items-center gap-2">
-              <div className="w-3 h-3 bg-red-400 rounded-full"></div>
-              <div className="w-3 h-3 bg-yellow-400 rounded-full"></div>
-              <div className="w-3 h-3 bg-green-400 rounded-full"></div>
-            </div>
-
-            <pre className="text-gray-500">{`> hammercode init
-
-Creating project...
-✓ Dependencies installed
-✓ Config generated
-✓ Ready to build
-
-> hammercode dev
-Server running at :3000`}</pre>
+          <div className="p-6 space-y-2 w-full max-w-2xl">
+            <img
+              className="w-full h-auto object-cover"
+              src="/dashboard-medical-record.png"
+              alt="Medical Illustration"
+            />
           </div>
         </section>
       </main>
