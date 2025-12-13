@@ -30,7 +30,7 @@ export default function Hero() {
           </div>
         </div>
 
-        <div className="p-6 space-y-2 w-full max-w-2xl">
+        <div className="p-5 space-y-2 w-full max-w-2xl">
           <img
             className="w-full h-auto object-cover"
             src="/dashboard-medical-record.png"

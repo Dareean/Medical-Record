@@ -12,22 +12,22 @@ export default function About() {
     {
       icon: <ShieldCheck className="w-6 h-6 text-red-600" />,
       title: "Data Security",
-      desc: "Kami menggunakan standar enkripsi tertinggi untuk menjaga kerahasiaan rekam medis pasien Anda.",
+      desc: "We use the highest encryption standards to maintain the confidentiality of your patient records.",
     },
     {
       icon: <Clock className="w-6 h-6 text-red-600" />,
       title: "Real-time Efficiency",
-      desc: "Tidak ada lagi antrean manual. Semua jadwal dan data diperbarui secara instan (real-time).",
+      desc: "No more manual queues. All schedules and data are updated instantly (real-time).",
     },
     {
       icon: <Heart className="w-6 h-6 text-red-600" />,
       title: "Patient Centric",
-      desc: "Desain antarmuka yang dibuat khusus agar tenaga medis bisa lebih fokus merawat pasien.",
+      desc: "A specially designed interface that allows medical personnel to focus more on patient care.",
     },
   ];
 
   return (
-    <section id="about" className="py-20 bg-slate-50 scroll-mt-32">
+    <section id="about" className="py-20 px-25 bg-slate-50 scroll-mt-32">
       <div className="max-w-7xl mx-auto px-6 md:px-12">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center mb-20">
           <div className="relative">
