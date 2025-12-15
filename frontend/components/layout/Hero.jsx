@@ -2,10 +2,10 @@ import { ArrowRight } from "lucide-react";
 
 export default function Hero() {
   return (
-    <main className="py-10">
+    <main className="max-w-7xl mx-auto px-6 lg:px-10 my-30">
       <section
         id="hero"
-        className="flex items-center justify-between gap-2 px-25 py-20"
+        className="flex flex-col lg:flex-row items-center justify-between gap-10 lg:gap-16"
       >
         <div className="space-y-6 max-w-xl">
           <div className="border border-red-500 w-fit px-3 py-1 rounded-full text-red-500 font-medium">

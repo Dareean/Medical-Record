@@ -19,18 +19,15 @@ export default function Navbar() {
           <a href="#about" className="hover:text-red-400 transition-colors">
             About Us
           </a>
-          <a href="#" className="hover:text-red-400 transition-colors">
-            Blog
-          </a>
-          <a href="#" className="hover:text-red-400 transition-colors">
-            Contact Us
-          </a>
         </div>
 
         <div>
-          <button className="bg-white text-slate-800 px-5 py-2 rounded-full text-sm font-bold hover:bg-red-50 transition-colors cursor-pointer shadow-md">
+          <a
+            href="/login"
+            className="bg-white text-slate-800 px-5 py-2 rounded-full text-sm font-bold hover:bg-red-50 transition-colors cursor-pointer shadow-md"
+          >
             Start Recording
-          </button>
+          </a>
         </div>
       </nav>
     </div>
