@@ -19,30 +19,20 @@ export default function LoginPage() {
     setError("");
 
     try {
-      // 1. Simulasi delay network (opsional, biar kelihatan loadingnya)
       await new Promise((resolve) => setTimeout(resolve, 1500));
 
-      // 2. Fetch data user dari Mock API
-      // (Karena MockAPI tidak punya fitur Auth beneran, kita ambil semua user lalu filter manual)
-      // const response = await fetch(MOCK_API_URL);
-      // const users = await response.json();
-
-      // LOGIKA DUMMY SEMENTARA (Supaya Anda bisa login tanpa set MockAPI dulu)
-      // Hapus bagian ini jika sudah punya MockAPI URL
       const users = [
         { email: "admin@medicflow.id", password: "admin", name: "Dr. Admin" },
       ];
 
-      // 3. Cek apakah email & password cocok
       const user = users.find(
         (u) => u.email === email && u.password === password
       );
 
       if (user) {
-        // Login Berhasil!
         console.log("Login Success:", user);
-        localStorage.setItem("user", JSON.stringify(user)); // Simpan sesi
-        navigate("/dashboard"); // Redirect ke Dashboard (nanti kita buat)
+        localStorage.setItem("user", JSON.stringify(user));
+        navigate("/dashboard");
       } else {
         // Login Gagal
         setError(
@@ -58,9 +48,7 @@ export default function LoginPage() {
 
   return (
     <div className="min-h-screen flex bg-white">
-      {/* BAGIAN KIRI: FORM LOGIN */}
-      <div className="w-full lg:w-1/2 p-8 md:p-12 flex flex-col justify-center relative">
-        {/* Tombol Back */}
+      <div className="w-full p-8 md:p-12 flex flex-col justify-center relative">
         <button
           onClick={() => navigate("/")}
           className="absolute top-8 left-8 flex items-center gap-2 text-slate-500 hover:text-red-500 transition-colors"
@@ -80,7 +68,6 @@ export default function LoginPage() {
           </div>
 
           <form onSubmit={handleLogin} className="space-y-6">
-            {/* Input Email */}
             <div className="space-y-2">
               <label className="text-sm font-medium text-slate-700">
                 Email
@@ -101,7 +88,6 @@ export default function LoginPage() {
               </div>
             </div>
 
-            {/* Input Password */}
             <div className="space-y-2">
               <label className="text-sm font-medium text-slate-700">
                 Password
@@ -122,14 +108,12 @@ export default function LoginPage() {
               </div>
             </div>
 
-            {/* Error Message */}
             {error && (
               <div className="p-3 bg-red-50 text-red-600 text-sm rounded-lg border border-red-100">
                 {error}
               </div>
             )}
 
-            {/* Submit Button */}
             <button
               type="submit"
               disabled={isLoading}
@@ -150,22 +134,6 @@ export default function LoginPage() {
             <a href="#" className="text-red-500 font-semibold hover:underline">
               Contact Admin
             </a>
-          </p>
-        </div>
-      </div>
-
-      {/* BAGIAN KANAN: GAMBAR / ILUSTRASI */}
-      <div className="hidden lg:block lg:w-1/2 bg-slate-50 relative overflow-hidden">
-        <img
-          src="https://images.unsplash.com/photo-1622253692010-333f2da6031d?q=80&w=1964&auto=format&fit=crop"
-          alt="Doctor working"
-          className="absolute inset-0 w-full h-full object-cover"
-        />
-        {/* Overlay Gradient */}
-        <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-slate-900/20 to-transparent flex flex-col justify-end p-12 text-white">
-          <h3 className="text-3xl font-bold mb-2">Modern Healthcare</h3>
-          <p className="text-slate-200 text-lg">
-            Manage your clinic with confidence and precision.
           </p>
         </div>
       </div>
