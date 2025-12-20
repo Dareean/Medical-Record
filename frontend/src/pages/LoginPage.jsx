@@ -1,46 +1,44 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Mail, Lock, ArrowLeft, Loader2, Stethoscope } from "lucide-react";
+import { authApi } from "../lib/api";
+import { saveAuth } from "../lib/auth";
 
 export default function LoginPage() {
   const navigate = useNavigate();
+  const [authMode, setAuthMode] = useState("login");
+  const isRegisterMode = authMode === "register";
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [role, setRole] = useState("patient");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
+  const [status, setStatus] = useState("");
 
-  // GANTI URL INI DENGAN URL MOCKAPI ANDA SENDIRI
-  // Contoh format: https://64a6...mockapi.io/api/v1/users
-  const MOCK_API_URL = "https://64a6...mockapi.io/api/v1/users";
-
-  const handleLogin = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
     setError("");
+    setStatus("");
 
     try {
-      await new Promise((resolve) => setTimeout(resolve, 1500));
-
-      const users = [
-        { email: "admin@medicflow.id", password: "admin", name: "Dr. Admin" },
-      ];
-
-      const user = users.find(
-        (u) => u.email === email && u.password === password
-      );
-
-      if (user) {
-        console.log("Login Success:", user);
-        localStorage.setItem("user", JSON.stringify(user));
-        navigate("/dashboard");
+      if (isRegisterMode) {
+        await authApi.register({ name, email, password, role });
+        setStatus("Account created. You can now sign in.");
+        setAuthMode("login");
+        setPassword("");
+        setName("");
+        setRole("patient");
       } else {
-        // Login Gagal
-        setError(
-          "Invalid email or password. Try 'admin@medicflow.id' & 'admin'"
-        );
+        const result = await authApi.login({ email, password });
+        if (result?.data) {
+          saveAuth(result.data);
+        }
+        navigate("/dashboard");
       }
     } catch (err) {
-      setError("Something went wrong. Please check your connection.");
+      setError(err.message || "Something went wrong");
     } finally {
       setIsLoading(false);
     }
@@ -61,13 +59,32 @@ export default function LoginPage() {
             <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-red-50 text-red-500 mb-4">
               <Stethoscope size={24} />
             </div>
-            <h2 className="text-3xl font-bold text-slate-900">Welcome Back</h2>
+            <h2 className="text-3xl font-bold text-slate-900">
+              {isRegisterMode ? "Create Account" : "Welcome Back"}
+            </h2>
             <p className="text-slate-500 mt-2">
-              Please enter your details to sign in.
+              {isRegisterMode
+                ? "Register new medical staff access."
+                : "Please enter your details to sign in."}
             </p>
           </div>
 
-          <form onSubmit={handleLogin} className="space-y-6">
+          <form onSubmit={handleSubmit} className="space-y-6">
+            {isRegisterMode && (
+              <div className="space-y-2">
+                <label className="text-sm font-medium text-slate-700">
+                  Full Name
+                </label>
+                <input
+                  type="text"
+                  required
+                  placeholder="Enter full name"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  className="w-full px-4 py-3 border border-slate-200 rounded-lg focus:ring-2 focus:ring-red-100 focus:border-red-400 outline-none transition-all"
+                />
+              </div>
+            )}
             <div className="space-y-2">
               <label className="text-sm font-medium text-slate-700">
                 Email
@@ -108,9 +125,31 @@ export default function LoginPage() {
               </div>
             </div>
 
+            {isRegisterMode && (
+              <div className="space-y-2">
+                <label className="text-sm font-medium text-slate-700">
+                  Role
+                </label>
+                <select
+                  value={role}
+                  onChange={(e) => setRole(e.target.value)}
+                  className="w-full px-4 py-3 border border-slate-200 rounded-lg focus:ring-2 focus:ring-red-100 focus:border-red-400 outline-none transition-all text-sm"
+                >
+                  <option value="doctor">Doctor</option>
+                  <option value="patient">Patient</option>
+                </select>
+              </div>
+            )}
+
             {error && (
               <div className="p-3 bg-red-50 text-red-600 text-sm rounded-lg border border-red-100">
                 {error}
+              </div>
+            )}
+
+            {status && (
+              <div className="p-3 bg-green-50 text-green-700 text-sm rounded-lg border border-green-100">
+                {status}
               </div>
             )}
 
@@ -121,8 +160,11 @@ export default function LoginPage() {
             >
               {isLoading ? (
                 <>
-                  <Loader2 className="animate-spin" size={20} /> Signing in...
+                  <Loader2 className="animate-spin" size={20} />
+                  {isRegisterMode ? "Submitting..." : "Signing in..."}
                 </>
+              ) : isRegisterMode ? (
+                "Register"
               ) : (
                 "Sign In"
               )}
@@ -130,10 +172,24 @@ export default function LoginPage() {
           </form>
 
           <p className="text-center text-sm text-slate-500">
-            Don't have an account?{" "}
-            <a href="#" className="text-red-500 font-semibold hover:underline">
-              Contact Admin
-            </a>
+            {isRegisterMode
+              ? "Already have an account?"
+              : "Don't have an account?"}{" "}
+            <button
+              type="button"
+              onClick={() => {
+                setAuthMode(isRegisterMode ? "login" : "register");
+                setError("");
+                setStatus("");
+                if (!isRegisterMode) {
+                  setName("");
+                  setRole("patient");
+                }
+              }}
+              className="text-red-500 font-semibold hover:underline"
+            >
+              {isRegisterMode ? "Sign in" : "Register"}
+            </button>
           </p>
         </div>
       </div>

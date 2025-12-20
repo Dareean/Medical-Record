@@ -2,12 +2,12 @@ import {
   Home,
   Users,
   Calendar,
-  Settings,
   LogOut,
   FileText,
   Activity,
 } from "lucide-react";
 import { useNavigate, useLocation } from "react-router-dom";
+import { clearAuth } from "../../src/lib/auth";
 
 export default function Sidebar() {
   const navigate = useNavigate();
@@ -15,14 +15,13 @@ export default function Sidebar() {
 
   const menuItems = [
     { name: "Dashboard", icon: <Home size={20} />, path: "/dashboard" },
-    { name: "Patients", icon: <Users size={20} />, path: "/patients" },
+    { name: "Doctors", icon: <Users size={20} />, path: "/doctors" },
     {
-      name: "Appointments",
+      name: "Schedules",
       icon: <Calendar size={20} />,
       path: "/appointments",
     },
-    { name: "Medical Records", icon: <FileText size={20} />, path: "/records" },
-    { name: "Settings", icon: <Settings size={20} />, path: "/settings" },
+    { name: "Records", icon: <FileText size={20} />, path: "/records" },
   ];
 
   return (
@@ -59,7 +58,11 @@ export default function Sidebar() {
       {/* Logout Area */}
       <div className="p-4 border-t border-slate-100">
         <button
-          onClick={() => navigate("/login")}
+          onClick={() => {
+            clearAuth();
+            localStorage.removeItem("user");
+            navigate("/login", { replace: true });
+          }}
           className="w-full flex items-center gap-3 px-4 py-3 text-slate-500 hover:text-red-600 hover:bg-red-50 rounded-xl transition-all text-sm font-medium"
         >
           <LogOut size={20} />

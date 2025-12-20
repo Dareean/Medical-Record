@@ -1,0 +1,393 @@
+{
+	"info": {
+		"_postman_id": "186a3b5b-69b3-4298-b080-77368bc5426d",
+		"name": "HMC-Medical-Record",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "22977223"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Register",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"pasien\",\n    \"email\": \"pasien@gmail.com\",\n    \"password\": \"password\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url_golang}}/register",
+							"host": [
+								"{{url_golang}}"
+							],
+							"path": [
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"doctor@hospital.com\",\n    \"password\": \"password\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url_golang}}/login",
+							"host": [
+								"{{url_golang}}"
+							],
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Admin",
+			"item": [
+				{
+					"name": "Doctor",
+					"item": [
+						{
+							"name": "Get All Doctor",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url_golang}}/admin/doctors",
+									"host": [
+										"{{url_golang}}"
+									],
+									"path": [
+										"admin",
+										"doctors"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Doctor by User Id",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url_golang}}/admin/doctors/18",
+									"host": [
+										"{{url_golang}}"
+									],
+									"path": [
+										"admin",
+										"doctors",
+										"18"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Add Doctor",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\":\"Dr. Jin\",\n    \"email\":\"doctor@hospital.com\",\n    \"specialization_id\":1,\n    \"gender\":\"male\",\n    \"address\":\"123 Main Tolitoli\",\n    \"license_number\":\"DOC123DD23\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url_golang}}/admin/doctors",
+									"host": [
+										"{{url_golang}}"
+									],
+									"path": [
+										"admin",
+										"doctors"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Edit Doctor",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\":\"Dr. Jin\",\n    \"email\":\"jin@hospital.com\",\n    \"role\":\"doctor\",\n    \"specialization_id\":2,\n    \"gender\":\"male\",\n    \"address\":\"123 Main Tolitoli\",\n    \"license_number\":\"DOC123DD43\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url_golang}}/admin/doctors/15",
+									"host": [
+										"{{url_golang}}"
+									],
+									"path": [
+										"admin",
+										"doctors",
+										"15"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Doctor",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{url_golang}}/admin/doctors/15",
+									"host": [
+										"{{url_golang}}"
+									],
+									"path": [
+										"admin",
+										"doctors",
+										"15"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Doctor",
+			"item": [
+				{
+					"name": "Schedule",
+					"item": [
+						{
+							"name": "Get All Schedule Doctor",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"doctor_id\": 17, \n    \"work_day\": \"monday\", \n    \"start_time\": \"09:00\", \n    \"end_time\": \"12:00\", \n    \"patient_quota\": 10\n}"
+								},
+								"url": {
+									"raw": "{{url_golang}}/doctor/schedules",
+									"host": [
+										"{{url_golang}}"
+									],
+									"path": [
+										"doctor",
+										"schedules"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Add Schedule Doctor",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"work_day\": \"monday\", \n    \"start_time\": \"09:00\", \n    \"end_time\": \"12:00\", \n    \"patient_quota\": 10\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url_golang}}/doctor/schedules",
+									"host": [
+										"{{url_golang}}"
+									],
+									"path": [
+										"doctor",
+										"schedules"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Edit Schedule Doctor",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"work_day\": \"monday\", \n    \"start_time\": \"08:00\", \n    \"end_time\": \"11:00\", \n    \"patient_quota\": 20\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url_golang}}/doctor/schedules/4",
+									"host": [
+										"{{url_golang}}"
+									],
+									"path": [
+										"doctor",
+										"schedules",
+										"4"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Schedule Doctor",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{url_golang}}/doctor/schedules/3",
+									"host": [
+										"{{url_golang}}"
+									],
+									"path": [
+										"doctor",
+										"schedules",
+										"3"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		}
+	]
+}
