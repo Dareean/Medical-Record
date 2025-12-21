@@ -3,7 +3,7 @@ package storage
 import (
 	"database/sql"
 	"log"
-	"os"     // Tambahkan ini untuk membaca "kabel" Railway
+	"os" // Tambahkan ini untuk membaca "kabel" Railway
 	"time"
 
 	_ "github.com/go-sql-driver/mysql"
