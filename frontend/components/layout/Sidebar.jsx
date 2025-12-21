@@ -1,6 +1,7 @@
 import { Home, ClipboardList, LogOut } from "lucide-react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { clearAuth, getStoredUser } from "../../src/lib/auth";
+import Logo from "../layout/Logo";
 
 export default function Sidebar() {
   const navigate = useNavigate();
@@ -14,7 +15,7 @@ export default function Sidebar() {
 
   if (role === "doctor") {
     menuItems.push({
-      name: "Booking Masuk",
+      name: "Appointments",
       icon: <ClipboardList size={18} />,
       path: "/bookings",
     });
@@ -22,7 +23,7 @@ export default function Sidebar() {
 
   if (role === "patient") {
     menuItems.push({
-      name: "Booking Saya",
+      name: "My Appointments",
       icon: <ClipboardList size={18} />,
       path: "/bookings",
     });
@@ -31,8 +32,7 @@ export default function Sidebar() {
   return (
     <aside className="w-64 bg-white border-r border-slate-200 h-screen fixed left-0 top-0 hidden md:flex flex-col z-50">
       <div className="p-4 border-b border-slate-100">
-        <p className="text-base font-semibold text-slate-800">MedicFlow</p>
-        <p className="text-xs text-slate-500">Booking sederhana</p>
+        <Logo />
       </div>
 
       <nav className="flex-1 p-4 space-y-2 overflow-y-auto">

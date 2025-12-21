@@ -42,7 +42,7 @@ export default function DashboardLayout({ children }) {
       <div className="flex-1 md:ml-64 transition-all">
         <header className="bg-white border-b border-slate-200 px-6 py-4 sticky top-0 z-40">
           <p className="text-xs uppercase tracking-[0.3em] text-slate-400">
-            Masuk sebagai
+            You Are Logged As
           </p>
           <div className="mt-2">
             <p className="text-lg font-semibold text-slate-900">

@@ -4,6 +4,7 @@ import (
 	"context"
 	"database/sql"
 	"errors"
+	"strings"
 	"time"
 
 	"github.com/JinXVIII/BE-Medical-Record/internal/domain"
@@ -115,7 +116,10 @@ func (s *patientService) CancelAppointment(ctx context.Context, userID, appointm
 	if ap.PatientID != patient.ID {
 		return ErrNotAllowed
 	}
-	if ap.Status != domain.AppointmentStatusPending && ap.Status != domain.AppointmentStatusConfirmed {
+	status := strings.TrimSpace(string(ap.Status))
+	isPending := strings.EqualFold(status, string(domain.AppointmentStatusPending))
+	isConfirmed := strings.EqualFold(status, string(domain.AppointmentStatusConfirmed))
+	if !isPending && !isConfirmed {
 		return ErrInvalidStatus
 	}
 

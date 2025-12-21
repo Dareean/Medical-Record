@@ -3,15 +3,52 @@ import DashboardLayout from "../../components/layout/DashboardLayout";
 import { doctorAppointmentApi, patientApi } from "../lib/api";
 import { getStoredUser } from "../lib/auth";
 
+const extractStatusValue = (appointment) => {
+  if (!appointment || typeof appointment !== "object") return "";
+  const candidate =
+    appointment.status ??
+    appointment.Status ??
+    appointment.appointment_status ??
+    appointment.appointmentStatus ??
+    appointment?.metadata?.status ??
+    "";
+
+  if (candidate && typeof candidate === "object") {
+    if (typeof candidate.value === "string") return candidate.value;
+    if (typeof candidate.label === "string") return candidate.label;
+    if (typeof candidate.String === "string") return candidate.String;
+  }
+
+  if (candidate === null || candidate === undefined) return "";
+  return String(candidate);
+};
+
+const normalizeStatus = (status) => {
+  if (status && typeof status === "object") {
+    if (typeof status.value === "string") {
+      return status.value.trim().toLowerCase();
+    }
+    if (typeof status.label === "string") {
+      return status.label.trim().toLowerCase();
+    }
+    if (typeof status.String === "string") {
+      return status.String.trim().toLowerCase();
+    }
+  }
+  return String(status || "")
+    .trim()
+    .toLowerCase();
+};
+
 const readableStatus = (status) => {
-  switch (status) {
-    case "Pending":
+  switch (normalizeStatus(status)) {
+    case "pending":
       return { label: "Menunggu", className: "text-amber-600" };
-    case "Confirmed":
+    case "confirmed":
       return { label: "Disetujui", className: "text-emerald-600" };
-    case "Rejected":
+    case "rejected":
       return { label: "Ditolak", className: "text-slate-500" };
-    case "Completed":
+    case "completed":
       return { label: "Selesai", className: "text-slate-600" };
     default:
       return { label: status || "-", className: "text-slate-600" };
@@ -190,11 +227,10 @@ function PatientBookings() {
       <div className="space-y-6">
         <section className="bg-white border border-slate-200 rounded-lg p-4 space-y-3">
           <h1 className="text-xl font-semibold text-slate-900">
-            Booking Dokter
+            Book your doctor
           </h1>
           <p className="text-sm text-slate-600">
-            Cari dokter, kirimkan tanggal dan jam yang kamu mau, lalu tunggu
-            dokter menyetujui atau menolak permintaanmu.
+            Find your doctor, schedules an appointment.
           </p>
 
           <div className="flex flex-wrap gap-3">
@@ -209,7 +245,7 @@ function PatientBookings() {
               onClick={fetchDoctors}
               className="px-4 py-2 border border-slate-300 rounded text-sm text-slate-700"
             >
-              Segarkan
+              Refresh
             </button>
           </div>
 
@@ -302,61 +338,40 @@ function PatientBookings() {
                   </button>
                 </form>
               </div>
-
-              <div className="flex-1 space-y-3 bg-slate-50 border border-slate-200 rounded-lg p-4">
-                <h3 className="text-sm font-semibold text-slate-800">
-                  Bagaimana prosesnya?
-                </h3>
-                <p className="text-sm text-slate-600">
-                  Kamu bebas mengusulkan jadwal. Dokter akan meninjaunya dan
-                  hanya perlu memilih approved atau declined tanpa mengatur
-                  kuota apa pun.
-                </p>
-                <ul className="space-y-2 text-sm text-slate-600">
-                  <li className="flex gap-2">
-                    <span className="text-red-500">1.</span>
-                    Kirim tanggal dan jam yang kamu inginkan lengkap dengan
-                    keluhan singkat.
-                  </li>
-                  <li className="flex gap-2">
-                    <span className="text-red-500">2.</span>
-                    Dokter menerima permintaanmu di panel booking, lalu memilih
-                    Approved / Declined.
-                  </li>
-                  <li className="flex gap-2">
-                    <span className="text-red-500">3.</span>
-                    Kamu akan mendapatkan status terbaru di daftar riwayat
-                    booking.
-                  </li>
-                </ul>
-              </div>
             </div>
           </section>
         )}
 
         <section className="bg-white border border-slate-200 rounded-lg p-4 space-y-3">
-          <h2 className="text-lg font-semibold text-slate-900">
-            Riwayat Booking
-          </h2>
+          <h2 className="text-lg font-semibold text-slate-900">Records</h2>
           {historyItems.length === 0 ? (
-            <p className="text-sm text-slate-600">Belum ada data booking.</p>
+            <p className="text-sm text-slate-600">Currently No Appointment</p>
           ) : (
             <div className="overflow-x-auto">
               <table className="w-full text-sm text-left">
                 <thead className="text-slate-500">
                   <tr>
-                    <th className="py-2">Dokter</th>
-                    <th className="py-2">Tanggal</th>
-                    <th className="py-2">Jam</th>
+                    <th className="py-2">Doctor</th>
+                    <th className="py-2">Date</th>
+                    <th className="py-2">Time</th>
                     <th className="py-2">Status</th>
-                    <th className="py-2 text-right">Aksi</th>
+                    <th className="py-2 text-right">Action</th>
                   </tr>
                 </thead>
                 <tbody className="text-slate-700">
                   {historyItems.map((item) => {
-                    const badge = readableStatus(item.status);
+                    const rawStatus = extractStatusValue(item);
+                    const normalizedStatus = normalizeStatus(rawStatus);
+                    const effectiveStatus = normalizedStatus || "pending";
+                    const badge = readableStatus(rawStatus || effectiveStatus);
                     const canCancel =
-                      item.status === "Pending" || item.status === "Confirmed";
+                      effectiveStatus === "pending" ||
+                      effectiveStatus === "confirmed";
+                    const cancelDisabled = !canCancel;
+                    const handleCancelClick = () => {
+                      if (cancelDisabled) return;
+                      handleCancel(item.id);
+                    };
                     return (
                       <tr key={item.id} className="border-t border-slate-100">
                         <td className="py-2">
@@ -373,14 +388,23 @@ function PatientBookings() {
                           {badge.label}
                         </td>
                         <td className="py-2 text-right">
-                          {canCancel && (
-                            <button
-                              onClick={() => handleCancel(item.id)}
-                              className="text-sm text-red-500"
-                            >
-                              Batalkan
-                            </button>
-                          )}
+                          <button
+                            type="button"
+                            onClick={handleCancelClick}
+                            disabled={cancelDisabled}
+                            title={
+                              cancelDisabled
+                                ? "Pembatalan hanya tersedia jika status masih menunggu atau sudah disetujui"
+                                : "Batalkan booking"
+                            }
+                            className={`text-sm font-medium ${
+                              cancelDisabled
+                                ? "text-slate-400 cursor-not-allowed"
+                                : "text-red-500 hover:text-red-600"
+                            }`}
+                          >
+                            Batalkan
+                          </button>
                         </td>
                       </tr>
                     );
@@ -437,10 +461,10 @@ function DoctorBookings() {
     setMessage("");
     try {
       await doctorAppointmentApi.updateStatus(id, status);
-      setMessage("Status booking diperbarui.");
+      setMessage("Status Updated");
       await fetchRequests();
     } catch (err) {
-      setError(err.message || "Gagal memperbarui status");
+      setError(err.message || "Failed to update status");
     } finally {
       setUpdatingId(null);
     }
@@ -450,9 +474,7 @@ function DoctorBookings() {
     <DashboardLayout>
       <div className="space-y-6">
         <section className="bg-white border border-slate-200 rounded-lg p-4 space-y-2">
-          <h1 className="text-xl font-semibold text-slate-900">
-            Permintaan Booking
-          </h1>
+          <h1 className="text-xl font-semibold text-slate-900">Appointments</h1>
           <p className="text-sm text-slate-600">
             Terima atau tolak booking dari pasien langsung dari daftar berikut.
           </p>
@@ -478,9 +500,13 @@ function DoctorBookings() {
                 </thead>
                 <tbody className="text-slate-700">
                   {requestItems.map((item) => {
-                    const badge = readableStatus(item.status);
+                    const rawStatus = extractStatusValue(item);
+                    const normalizedStatus = normalizeStatus(rawStatus);
+                    const effectiveStatus = normalizedStatus || "pending";
+                    const badge = readableStatus(rawStatus || effectiveStatus);
                     const disabled =
-                      item.status === "Rejected" || item.status === "Completed";
+                      effectiveStatus === "rejected" ||
+                      effectiveStatus === "completed";
                     return (
                       <tr key={item.id} className="border-t border-slate-100">
                         <td className="py-2">
