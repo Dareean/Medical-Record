@@ -86,17 +86,17 @@ func (h *DoctorAppointmentHandler) UpdateStatus(w http.ResponseWriter, r *http.R
 		return
 	}
 
-	if !domain.IsValidAppointmentStatus(req.Status) {
+	statusValue, ok := domain.NormalizeAppointmentStatus(req.Status)
+	if !ok {
 		helper.SendJSON(w, http.StatusBadRequest, domain.Response{Message: "status tidak dikenal"})
 		return
 	}
-	if req.Status == string(domain.AppointmentStatusPending) {
+	if statusValue == domain.AppointmentStatusPending {
 		helper.SendJSON(w, http.StatusBadRequest, domain.Response{Message: "status tidak boleh kembali ke Pending"})
 		return
 	}
 
-	status := domain.AppointmentStatus(req.Status)
-	if err := h.service.UpdateAppointmentStatus(r.Context(), int64(doctorID), appointmentID, status); err != nil {
+	if err := h.service.UpdateAppointmentStatus(r.Context(), int64(doctorID), appointmentID, statusValue); err != nil {
 		switch {
 		case errors.Is(err, service.ErrNotAllowed):
 			helper.SendJSON(w, http.StatusForbidden, domain.Response{Message: err.Error()})

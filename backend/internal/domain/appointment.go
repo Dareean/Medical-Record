@@ -1,6 +1,7 @@
 package domain
 
 import (
+	"strings"
 	"time"
 )
 
@@ -43,12 +44,23 @@ type AppointmentUpdateRequest struct {
 	Status AppointmentStatus `json:"status" validate:"required,oneof=Pending Confirmed Rejected Completed"`
 }
 
-func IsValidAppointmentStatus(status string) bool {
-	switch status {
-	case string(AppointmentStatusPending), string(AppointmentStatusConfirmed),
-		string(AppointmentStatusRejected), string(AppointmentStatusCompleted):
-		return true
+func NormalizeAppointmentStatus(status string) (AppointmentStatus, bool) {
+	switch strings.TrimSpace(strings.ToLower(status)) {
+	case strings.ToLower(string(AppointmentStatusPending)):
+		return AppointmentStatusPending, true
+	case strings.ToLower(string(AppointmentStatusConfirmed)), "approved", "approve",
+		"approving", "accept", "accepted":
+		return AppointmentStatusConfirmed, true
+	case strings.ToLower(string(AppointmentStatusRejected)), "reject", "rejected":
+		return AppointmentStatusRejected, true
+	case strings.ToLower(string(AppointmentStatusCompleted)), "complete", "completed":
+		return AppointmentStatusCompleted, true
 	default:
-		return false
+		return AppointmentStatusPending, false
 	}
+}
+
+func IsValidAppointmentStatus(status string) bool {
+	_, ok := NormalizeAppointmentStatus(status)
+	return ok
 }

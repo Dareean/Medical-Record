@@ -129,3 +129,29 @@ export const doctorAppointmentApi = {
     });
   },
 };
+
+export const doctorScheduleApi = {
+  getMine: async () => {
+    const response = await request("/doctor/schedules");
+    return ensureArray(unwrap(response));
+  },
+  create: async (payload) => {
+    const response = await request("/doctor/schedules", {
+      method: "POST",
+      body: JSON.stringify(payload),
+    });
+    return unwrap(response);
+  },
+  update: async (id, payload) => {
+    const response = await request(`/doctor/schedules/${id}`, {
+      method: "PUT",
+      body: JSON.stringify(payload),
+    });
+    return unwrap(response);
+  },
+  remove: async (id) => {
+    await request(`/doctor/schedules/${id}`, {
+      method: "DELETE",
+    });
+  },
+};
