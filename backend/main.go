@@ -132,14 +132,15 @@ func main() {
 		})
 	})
 
-	// Ambil port dari environment variable yang disediakan Railway
-    port := os.Getenv("PORT")
+	// GANTI BAGIAN INI
+    port := os.Getenv("PORT") // Railway akan kasih nomor pintu otomatis di sini
     if port == "" {
-        port = "8080" // Default untuk lokal jika variabel PORT tidak ada
+        port = "8080" // Ini buat kalau kamu jalanin di laptop sendiri
     }
 
     log.Printf("Server berjalan di port %s", port)
-    // Gunakan variabel port dengan tanda titik dua
+    
+    // Gunakan variabel port tadi, jangan diketik manual :8080 lagi
     if err := http.ListenAndServe(":"+port, r); err != nil {
         log.Fatal("Gagal menjalankan server: ", err)
     }

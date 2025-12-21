@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "railway": "^2.0.17",
     "react-route": "^1.0.3"
   }
 }
