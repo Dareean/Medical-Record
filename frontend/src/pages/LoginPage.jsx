@@ -48,7 +48,7 @@ export default function LoginPage() {
     <div className="min-h-screen flex bg-white">
       <div className="w-full p-8 md:p-12 flex flex-col justify-center relative">
         <button
-          onClick={() => navigate("/")}
+          onClick={() => navigate("/landing")}
           className="absolute top-8 left-8 flex items-center gap-2 text-slate-500 hover:text-red-500 transition-colors"
         >
           <ArrowLeft size={20} /> Back to Home
@@ -135,8 +135,8 @@ export default function LoginPage() {
                   onChange={(e) => setRole(e.target.value)}
                   className="w-full px-4 py-3 border border-slate-200 rounded-lg focus:ring-2 focus:ring-red-100 focus:border-red-400 outline-none transition-all text-sm"
                 >
-                  <option value="doctor">Doctor</option>
-                  <option value="patient">Patient</option>
+                  <option value="doctor">Dokter</option>
+                  <option value="patient">Pasien</option>
                 </select>
               </div>
             )}

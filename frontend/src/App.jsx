@@ -1,14 +1,17 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import LandingPage from "./pages/LandingPage";
 import LoginPage from "./pages/LoginPage";
 import DashboardPage from "./pages/DashboardPage";
-import DoctorsPage from "./pages/DoctorsPage";
-import AppointmentsPage from "./pages/AppointmentsPage";
-import RecordsPage from "./pages/RecordsPage";
+import SchedulesPage from "./pages/SchedulesPage";
+import BookingsPage from "./pages/BookingsPage";
+import LandingPage from "./pages/LandingPage";
 
 const router = createBrowserRouter([
   {
     path: "/",
+    element: <LoginPage />,
+  },
+  {
+    path: "/landing",
     element: <LandingPage />,
   },
   {
@@ -20,16 +23,12 @@ const router = createBrowserRouter([
     element: <DashboardPage />,
   },
   {
-    path: "/doctors",
-    element: <DoctorsPage />,
+    path: "/schedules",
+    element: <SchedulesPage />,
   },
   {
-    path: "/appointments",
-    element: <AppointmentsPage />,
-  },
-  {
-    path: "/records",
-    element: <RecordsPage />,
+    path: "/bookings",
+    element: <BookingsPage />,
   },
   {
     path: "*",
@@ -51,21 +50,21 @@ function NotFoundPage() {
         Halaman tidak ditemukan
       </h1>
       <p className="text-slate-600 max-w-2xl mb-8">
-        URL yang Anda akses belum tersedia. Silakan kembali ke halaman utama
-        atau buka menu login untuk melanjutkan.
+        URL ini belum dikonfigurasi. Gunakan tombol di bawah untuk kembali ke
+        halaman yang terhubung dengan backend.
       </p>
       <div className="flex flex-wrap items-center justify-center gap-4">
         <a
-          href="/"
+          href="/dashboard"
           className="px-6 py-3 rounded-full bg-red-500 text-white font-semibold hover:bg-red-600 transition-colors"
         >
-          Ke Landing Page
+          Buka Dashboard
         </a>
         <a
           href="/login"
           className="px-6 py-3 rounded-full border border-slate-200 text-slate-700 font-semibold hover:border-red-200 hover:text-red-500 transition-colors"
         >
-          Buka Login
+          Kembali ke Login
         </a>
       </div>
     </main>
